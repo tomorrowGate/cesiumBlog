@@ -8,6 +8,11 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import 'cesium/Widgets/widgets.css'
+ 
+let Cesium = require('cesium/Cesium');
+Vue.use(Cesium)
+
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

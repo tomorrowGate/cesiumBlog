@@ -5,6 +5,7 @@ import Login from '@/components/Login/Login'
 import AdminIndex from '@/components/AdminIndex/AdminIndex'
 import AdminArticleList from '@/components/AdminContents/AdminArticleList'
 import AdminArticleWrite from '@/components/AdminContents/AdminArticleWrite'
+import CesiumIndex from '@/components/CesiumIndex/CesiumIndex'
 
 Vue.use(Router)
 
@@ -34,6 +35,14 @@ export default new Router({
        /*  {path:'/AdminArticleWrite',component:AdminArticleWrite},
         {path:'/newuser',component:NewUser}  */
       ]
+    },
+    {
+      path:'/cesium',
+      name:'CesiumIndex',
+      component:CesiumIndex,
+       /*  {path:'/AdminArticleWrite',component:AdminArticleWrite},
+        {path:'/newuser',component:NewUser}  */
+      
     }
   ]
 })

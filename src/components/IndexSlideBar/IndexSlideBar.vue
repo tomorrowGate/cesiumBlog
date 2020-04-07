@@ -29,9 +29,9 @@
                     <el-menu-item index="1-4-1">选项1</el-menu-item>
                     </el-submenu>
                 </el-submenu>
-                <el-menu-item index="2">
+                <el-menu-item index="cesium">
                     <i class="el-icon-menu"></i>
-                    <span slot="title">导航二</span>
+                    <span slot="title">Cesium</span>
                 </el-menu-item>
                 <el-menu-item index="3" disabled>
                     <i class="el-icon-document"></i>

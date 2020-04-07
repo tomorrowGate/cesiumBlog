@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const cesiumSource = '../node_modules/cesium/Source';
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -36,6 +37,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      cesium: path.resolve(__dirname, cesiumSource)
     }
   },
   module: {
@@ -50,6 +52,20 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+      },
+      {
+        //Strip cesium pragmas 删除编译指示
+        test: /\.js$/,
+        enforce: 'pre',
+        include: path.resolve(__dirname, cesiumSource),
+        use: [{
+          loader: 'strip-pragma-loader',
+          options: {
+            pragmas: {
+              debug: false
+            }
+          }
+        }]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -75,7 +91,8 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
-    ]
+    ],
+    unknownContextCritical: false  //屏蔽警告
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

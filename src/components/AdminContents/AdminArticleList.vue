@@ -12,32 +12,43 @@
             sortable
             width="180"
             column-key="date"
-            :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-            :filter-method="filterHandler"
-            >
-            </el-table-column>
+            />
             <el-table-column
-            prop="name"
+            prop="author"
             label="姓名"
-            width="180">
-            </el-table-column>
+            width="180"/>
             <el-table-column
-            prop="address"
-            label="地址"
-            :formatter="formatter">
-            </el-table-column>
+            prop="title"
+            label="文章标题"/>
             <el-table-column
-            prop="tag"
+            prop="tags"
             label="标签"
             width="100"
-            :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-            :filter-method="filterTag"
-            filter-placement="bottom-end">
+            >
             <template slot-scope="scope">
                 <el-tag
-                :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                disable-transitions>{{scope.row.tag}}</el-tag>
+                :type="scope.row.tags === 'test' ? 'primary' : 'success'"
+                disable-transitions>{{scope.row.tags}}</el-tag>
             </template>
+            </el-table-column>
+
+            <el-table-column align="right">
+                <template slot="header" slot-scope="scope">
+                    <el-input
+                    v-model="search"
+                    size="mini"
+                    @keyup.enter.native="requestTableData()"
+                    placeholder="输入关键字搜索"/>
+                </template>
+                <template slot-scope="scope">
+                    <el-button
+                    size="mini"
+                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button
+                    size="mini"
+                    type="danger"
+                    @click="handleDelete(scope.$index, scope.row,tableData)">删除</el-button>
+                </template>
             </el-table-column>
         </el-table>
     </div>
@@ -49,28 +60,17 @@ export default {
 
     data () {
         return {
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄',
-                tag: '家'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄',
-                tag: '公司'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄',
-                tag: '家'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄',
-                tag: '公司'
-            }]
+            tableData: [],
+            search:"",//搜索框的数据
         }
+    },
+
+    created() {
+        
+    },
+
+    mounted() {
+        this.requestTableData()
     },
 
     methods: {
@@ -80,15 +80,35 @@ export default {
         clearFilter() {
             this.$refs.filterTable.clearFilter();
         },
-        formatter(row, column) {
-            return row.address;
+        handleEdit(index, row) {
+            console.log(index, row);
         },
-        filterTag(value, row) {
-            return row.tag === value;
+        handleDelete(index, row,table) {
+            console.log(index, row);
+            let postData = {_id:row._id}
+
+            this.$axios.post("/api/delete",postData).then((res)=>{
+                console.log(res);
+                if (res.data.code === 0) {
+                    this.$message.error(res.data.msg || "删除失败");
+                    return;
+                }
+                table.splice(index, 1);
+            })
         },
-        filterHandler(value, row, column) {
-            const property = column['property'];
-            return row[property] === value;
+        requestTableData(){
+            let postData = {keyword:this.search}
+
+            this.$axios.post("/api/search",postData).then((res)=>{
+                console.log(res);
+                
+                if (res.data.code === 0) {
+                    //如果登录失败 弹出失败提示
+                    this.$message.error(res.data.msg || "查询失败");
+                    return;
+                }
+                this.tableData = res.data.data
+            })
         }
     }
 }

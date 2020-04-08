@@ -16,24 +16,24 @@
         <div id="content">
             <div class="content-main">
                 <ul class="content-main-left">
-                    <li>
+                    <li v-for="(v,i) in tableData" :key="i">
                         <router-link tag="div" to='/articleDetail' class="header-right">
                             <div class="pic"></div>
                             <div class="title">
                                 <div class="t-bg"></div>
-                                <p class="t t-1"><a href="/articleDetail">爷青结</a></p>
-                                <p class="t t-2">发布时间：<span>2020/4/4</span></p>
-                                <p class="t t-3">浏览量：<span>555</span></p>
+                                <p class="t t-1"><a href="/articleDetail" v-text="v.title"></a></p>
+                                <p class="t t-2">发布时间：<span>{{v.date}}</span></p>
+                                <p class="t t-3">浏览量：<span>{{v.readNum}}</span></p>
                             </div>
                             <div class="article">
-                                <article style="overflow: hidden;max-height: 120px;">
-                                    简单来说，也的青春结束了
+                                <article style="overflow: hidden;max-height: 120px;" v-html="v.content">
+                                   
                                 </article>
                                 <div class="more">
                                     <a href="/articleDetail">阅读全部</a>
                                 </div>
                                 <div class="comment">
-                                    <a href="/articleDetail"><span></span>条评论</a>
+                                    <a href="/articleDetail"><span>{{v.commentsNum}}</span>条评论</a>
                                 </div>
                             </div>
                         </router-link>
@@ -59,14 +59,33 @@
 
 <script>
 export default {
-  name: 'IndexArticle',
+    name: 'IndexArticle',
 
-  data () {
-    return {
+    data () {
+        return {
+            tableData:[]
+        }
+    },
+    
+    mounted() {
+        this.requestTableData()
+    },
+    
+    methods: {
+        requestTableData(){
+            let postData = {keyword:""}
+
+            this.$axios.post("/api/search",postData).then((res)=>{
+                console.log(res);
+                
+                if (res.data.code === 0) {
+                    this.$message.error(res.data.msg || "加载初始数据失败");
+                    return;
+                }
+                this.tableData = res.data.data
+            })
+        }
     }
-  },
-
-  methods: {}
 }
 </script>
 
@@ -96,7 +115,7 @@ export default {
         position: relative;
         width: 1000px;
         //height: 2000px;
-        padding-top: 100px;
+        padding-top: 70px;
         margin: 0 auto;
         ul.content-main-left{
             width: 100%;

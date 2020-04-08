@@ -12,6 +12,9 @@ router.post("/",(req,res)=>{
     if(!(title&&tags.length&&content)){
         return res.send({code:0,msg:"格式错误"});
     }
+    if(!(req.session.userInfo&&req.session.userInfo._id)){
+        return res.send({code:0,msg:"登录失败，请重新登录"})
+    }
 
     article.create({
         title

@@ -19,6 +19,13 @@ module.exports = {
           '^/api': ''   //重写接口
         }
       },
+      '/mapService': {
+        target: 'http://t0.tianditu.com/',  //目标接口域名
+        changeOrigin: true,  //是否跨域
+        pathRewrite: {
+          '^/mapService': ''   //重写接口
+        }
+      },
     },
 
     // Various Dev Server settings

@@ -37,9 +37,9 @@
                     <i class="el-icon-document"></i>
                     <span slot="title">导航三</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="leaflet">
                     <i class="el-icon-setting"></i>
-                    <span slot="title">导航四</span>
+                    <span slot="title">Leaflet</span>
                 </el-menu-item>
                 </el-menu>
             </el-col>

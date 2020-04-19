@@ -7,7 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import router from './router'
 import store from './store'
-
 import 'cesium/Widgets/widgets.css'
  
 let Cesium = require('cesium/Cesium');

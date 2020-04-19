@@ -7,6 +7,8 @@ import AdminArticleList from '@/components/AdminContents/AdminArticleList'
 import AdminArticleWrite from '@/components/AdminContents/AdminArticleWrite'
 import AdminInfo from '@/components/AdminContents/AdminInfo'
 
+import LeafletIndex from '@/components/LeafletIndex/LeafletIndex'
+import LeafletUpLoad from '@/components/LeafletUpLoad/LeafletUpLoad'
 import CesiumIndex from '@/components/CesiumIndex/CesiumIndex'
 
 Vue.use(Router)
@@ -52,6 +54,19 @@ export default new Router({
         /*  {path:'/AdminArticleWrite',component:AdminArticleWrite},
          {path:'/newuser',component:NewUser}  */
 
+    },
+    {
+        path: '/leaflet',
+        name: 'LeafletIndex',
+        component: LeafletIndex,
+        /*  {path:'/AdminArticleWrite',component:AdminArticleWrite},
+         {path:'/newuser',component:NewUser}  */
+
+    },
+    {
+        path: '/leafletUpLoad',
+        name: 'leafletUpLoad',
+        component: LeafletUpLoad,
     }
     ]
 })

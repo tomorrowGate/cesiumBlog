@@ -1,4 +1,4 @@
-
+require("./routers/conmysql")
 const
     express = require("express"),
     mongoose = require("mongoose")
@@ -87,3 +87,8 @@ app.use("/comment",require("./routers/comment"));
 app.use("/upload",require("./routers/upload"));
 //管理员 路由
 app.use("/admin",require("./routers/admin"));
+
+
+// app.get("/conmysql",require("./routers/conmysql"));
+
+app.use("/uploadRedline",require("./routers/uploadRedline"));
